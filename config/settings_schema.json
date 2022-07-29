@@ -1182,7 +1182,7 @@
         "id": "show_cart_note",
         "label": "t:settings_schema.cart.settings.show_cart_note.label",
         "default": false
-      },
+      },      
       {
         "type": "header",
         "content": "t:settings_schema.cart.settings.cart_drawer.header"
@@ -1192,6 +1192,67 @@
         "id": "cart_drawer_collection",
         "label": "t:settings_schema.cart.settings.cart_drawer.collection.label",
         "info": "t:settings_schema.cart.settings.cart_drawer.collection.info"
+      },
+
+      {
+        "type": "header",
+        "content": "t:settings_schema.cart.settings.cart_drawer.cart_goal_header.label",
+        "info": "Works only if cart type is drawer."
+      },
+      {
+        "type": "range",
+        "id": "cart_goal_value",
+        "label": "Cart Goal - NL",
+        "info": "t:settings_schema.cart.settings.cart_drawer.cart_goal_value.label",
+        "min": 0,
+        "max": 500,
+        "default": 50,
+        "step": 5
+      },
+      {
+        "type": "range",
+        "id": "cart_goal_value_en",
+        "label": "Cart Goal - EN",
+        "info": "t:settings_schema.cart.settings.cart_drawer.cart_goal_value.label",
+        "min": 0,
+        "max": 500,
+        "default": 100,
+        "step": 5
+      },
+      {
+        "type": "richtext",
+        "id": "cart_goal_description_before",
+        "label": "t:settings_schema.cart.settings.cart_drawer.cart_goal_description_before.label",
+        "default": "<p><strong>[amount]</strong> away from FREE Shipping!</p>"
+      },
+      {
+        "type": "color",
+        "id": "cart_goal_color_before",
+        "label": "t:settings_schema.cart.settings.cart_drawer.cart_goal_color_before.label",
+        "default": "#fd7e14"
+      },
+      {
+        "type": "richtext",
+        "id": "cart_goal_description_after",
+        "label": "t:settings_schema.cart.settings.cart_drawer.cart_goal_description_after.label",
+        "default": "<p>Congrats! You're eligible for <strong>FREE Shipping.</strong></p>"
+      },
+      {
+        "type": "color",
+        "id": "cart_goal_color_after",
+        "label": "t:settings_schema.cart.settings.cart_drawer.cart_goal_color_after.label",
+        "default": "#158754"
+      },
+
+      {
+        "type": "header",
+        "content": "t:settings_schema.cart.settings.cart_drawer.cart_upsell_header.label",
+        "info": "Works only if cart type is drawer."
+      },
+      {
+        "type": "text",
+        "id": "cart_upsells_title",
+        "label": "t:settings_schema.cart.settings.cart_drawer.text.label"
       }
     ]
   }

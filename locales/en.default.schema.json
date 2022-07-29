@@ -300,10 +300,34 @@
           "label": "Enable cart note"
         },
         "cart_drawer": {
-          "header": "Cart drawer",
+          "header": "CART DRAWER",
           "collection": {
             "label": "Collection",
             "info": "Visible when cart drawer is empty."
+          },
+          "cart_goal_header": {
+            "label": "CART GOAL"
+          },
+          "cart_goal_value":{
+            "label": "Select 0 to disable this feature"
+          },
+          "cart_goal_description_before": {
+            "label": "Description - Goal not completed"
+          },
+          "cart_goal_color_before": {
+            "label": "BG color - Goal not completed"
+          },
+          "cart_goal_description_after": {
+            "label": "Description - Goal completed"
+          },
+          "cart_goal_color_after": {
+            "label": "BG color - Goal completed"
+          },
+          "cart_upsell_header": {
+            "label": "CART UPSELL"
+          },
+          "text": {
+            "label": "Upsell header text"
           }
         }
       }
