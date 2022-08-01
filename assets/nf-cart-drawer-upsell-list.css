@@ -1,0 +1,114 @@
+#nf-cart-drawer-upsell-list {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    overflow-x: auto;
+    overflow-y: hidden;
+    height: 320px;
+    padding: 0px;
+}
+
+#nf-cart-drawer-upsells-title {
+    font-weight: bold;
+}
+
+#nf-cart-drawer-upsell-list::-webkit-scrollbar, .drawer__body::-webkit-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none; 
+    width: 3px;
+    height: 5px;
+    display: block;
+    transition: ease 0.3s;
+}
+
+#nf-cart-drawer-upsell-list:hover::-webkit-scrollbar-track, .drawer__body:hover::-webkit-scrollbar-track{
+-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+background-color: #F5F5F5;
+transition: ease 0.3s;
+
+}
+#nf-cart-drawer-upsell-list:hover::-webkit-scrollbar,  .drawer__body:hover::-webkit-scrollbar{
+background-color: #F5F5F5;
+transition: ease 0.3s;
+}
+#nf-cart-drawer-upsell-list:hover::-webkit-scrollbar-thumb, .drawer__body:hover::-webkit-scrollbar-thumb{
+background-color: #414141;
+transition: ease 0.3s;
+}
+
+#nf-cart-drawer-upsell-list .nf-cart-drawer-upsell-list-item {
+    list-style-type: none;
+    background-color: #f8f6f2;
+    width: 150px;
+    margin: 0px 5px;
+    padding: 10px;
+}
+
+#nf-cart-drawer-upsell-list .nf-cart-drawer-upsell-list-item .nf-cart-drawer-upsell-data .nf-justify-between{
+    display: flex;
+    flex-direction: column;
+}
+
+#nf-cart-drawer-upsell-list .nf-cart-drawer-upsell-list-item .nf-cart-drawer-upsell-data a{
+    margin-bottom: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#nf-cart-drawer-upsell-list .nf-cart-drawer-upsell-list-item .nf-cart-drawer-upsell-data p {
+  font-size: 10px;
+}
+
+.upsell_variant_select {
+    width: 133px;
+    padding: 7px;
+    border: 2px solid #000;
+    font-weight: bold;
+    background: transparent;
+}
+
+.upsell_variant_select:focus {
+    border: none;
+    outline: none;
+}
+
+.cart_upsell_button--recommendation  {
+    display: block;
+    padding: 5px 10px;
+    border: 2px solid #000;
+    text-align: center;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.cart_upsell_button--recommendation:hover, .upsell_variant_select:hover {
+    background-color: #000;
+    color: #fff;
+    transition: ease 0.3s;
+}
+
+.cart-items thead {
+  padding-top: 1.8rem;
+}
+
+.drawer__body {
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 5px;
+}
+
+.drawer__inner {
+  padding: 0px 20px !important;
+}
+
+cart-drawer-items {
+  overflow: initial !important;
+}
+
+.drawer__footer {
+  position: sticky;
+  bottom: 0px;
+  left: 0px;
+}
