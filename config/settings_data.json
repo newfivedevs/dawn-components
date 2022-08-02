@@ -97,6 +97,8 @@
     "predictive_search_show_price": false,
     "currency_code_enabled": true,
     "cart_type": "drawer",
+    "upsell_enable": true,
+    "cart_upsells_title": "How about these?",
     "sections": {
       "announcement-bar": {
         "type": "announcement-bar",
