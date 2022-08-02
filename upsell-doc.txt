@@ -99,13 +99,16 @@ Snippets
         "info": "t:settings_schema.cart.settings.cart_drawer.cart_upsell_tag.info"
       }
 
+
+10. need to change cart-drawer.liquid
+ remove cart errors
+
 Lastly to enable the Cart Upsell you need to go to Customize > Theme Settings > Cart
 click the checkbox and add upseel header text
 
-
 still need to fix this cart error
-You can only add 1 of this item to your cart.
-There was an error while updating your cart. Please try again.
+e.1 You can only add 1 of this item to your cart.
+e.2 There was an error while updating your cart. Please try again.
 cart.js triggering this error.
 if (this.currentItemCount === itemCount) {}
 

@@ -1,5 +1,4 @@
 <link rel="stylesheet" href="{{ 'nf-cart-drawer-upsell-list.css' | asset_url }}" media="print" onload="this.media='all'">
-
 {% if settings.cart_type == 'drawer' and cart_upsells_product_handles != blank %}
     {% unless settings.cart_upsells_title == blank %}
         <h4 class="" id="nf-cart-drawer-upsells-title">
@@ -37,7 +36,7 @@
       //Load cart drawer on ajax add/update        
       window.loadNfCartDrawer = async () => {
         const $cartDrawer = document.querySelector('#CartDrawer')
-        if (!$cartDrawer) return;      
+        if (!$cartDrawer) return;
         $cartDrawer.setAttribute('role', 'dialog')
         $cartDrawer.style.visibility = 'visible'
         const $form = $cartDrawer.querySelector('form')
@@ -48,7 +47,15 @@
         const data = await respoonse.text()
         const parser = new DOMParser()
         const newDocument = parser.parseFromString(data, 'text/html')
+        //console.log("new form")
+        //console.log(newDocument.querySelector('#CartDrawer form'))
+        // Heres the problem
         $form.replaceWith(newDocument.querySelector('#CartDrawer form'))
+        
+        //Somehow fix?
+        // document.querySelector('#CartDrawer-Form')
+        // ?.replaceWith(newDocument.querySelector('#CartDrawer-Form'))
+
         document.querySelector('#cart-icon-bubble .cart-count-bubble')
             ?.replaceWith(newDocument.querySelector('#cart-icon-bubble .cart-count-bubble'))          
         
@@ -64,10 +71,10 @@
         
         initCartDrawerQuantity()
         initCartDrawerRemoveButtons()
-        //initCartUpsells()
         initCartOpenClose()
         initCartRecommendations()
         initCartEmpty()
+         //initCartUpsells()
       }
       //recommendations product display if no upsells
       const initCartRecommendations = () => {        
@@ -78,8 +85,8 @@
         
         if($cartItemId != undefined) {
           const recommList = document.querySelector('.nf-cart-recommendations-list')
-          console.log("Init recommendation")
-          console.log({'cart item dataset item': $cartItemId.dataset.item})
+          //console.log("Init recommendation")
+          //console.log({'cart item dataset item': $cartItemId.dataset.item})
           if(!$cartItemId) return
           if(!recommList) return
           const recommendedProducts = '/recommendations/products.json?product_id='+$cartItemId.dataset.item+'&limit=3'
@@ -88,7 +95,7 @@
           fetch(recommendedProducts)
           .then(res => res.json())
           .then(data => {
-              console.log(data)
+              //console.log(data)
             let recomm_upsells_list = new Array()
             for(let i in data.products) {
               //console.log('Recomm items:'+data.products[i].id)
@@ -219,7 +226,6 @@
                 quantity: 0
               })
             })
-            
             loadNfCartDrawer()
           })
         })
@@ -281,7 +287,7 @@
           select.addEventListener('change', async (e) => {
             const variantId = select.value;
             const variantQuantity = 1;
-            console.log(variantId)
+            //console.log(variantId)
             const response = await fetch('/cart/add.js', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
@@ -293,6 +299,8 @@
               })
             })
             const data = await response.json()
+            //console.log("cart add")
+            //console.log(data)
             loadNfCartDrawer()
           });
         })

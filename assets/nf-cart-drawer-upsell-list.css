@@ -112,3 +112,9 @@ cart-drawer-items {
   bottom: 0px;
   left: 0px;
 }
+
+
+.cart-item__error, #CartDrawer-CartErrors {
+  visibility: hidden !important;
+  display: none !important;
+}
