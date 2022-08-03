@@ -114,7 +114,7 @@ cart-drawer-items {
 }
 
 
-.cart-item__error, #CartDrawer-CartErrors {
+/* .cart-item__error, #CartDrawer-CartErrors {
   visibility: hidden !important;
   display: none !important;
-}
+} */
