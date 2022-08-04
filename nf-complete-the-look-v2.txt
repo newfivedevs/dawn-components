@@ -1,0 +1,28 @@
+Snippet name: nf-complete-the-look-v2.liquid
+Put this file in your snippet folder
+
+Metafield name: Complete the look single
+
+1. Put this code under  {%- when 'description'-%} 
+{%- when 'complete-the-look-v2'-%}
+   {% render 'nf-complete-the-look-v2' %}
+
+
+2. add to schema main-product.liquid
+{
+      "type": "complete-the-look-single",
+      "name": "NF Complete the look",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "label": "Heading text",
+          "id": "complete_the_look_single_header_text"
+        },
+        {
+          "type": "product",
+          "id": "nf_complete_the_look_single_product",
+          "label": "Products"
+        }
+      ]
+    }

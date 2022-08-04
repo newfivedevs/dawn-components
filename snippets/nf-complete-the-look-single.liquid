@@ -1,0 +1,36 @@
+
+<style>
+  
+    .nf-complete-the-look-single__header {
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    #nf-complete-the-look-single__content {
+        display: flex;
+        font-size: 13px;
+        line-height: 19px;
+    }
+
+    #nf-complete-the-look-single__content > div:first-child {
+        margin-right: 10px;
+    }
+
+    #nf-complete-the-look-single img {
+        width: 100px;
+        height: 100%;
+    }
+
+   
+
+</style>
+
+<div id="nf-complete-the-look-single__content">
+    <div>
+        <img src="{{ product.featured_image | img_url: 'master' }}" alt="" loading="lazy" />
+    </div>
+    <div>
+        <span>{{product.title}}</span>
+        {% render 'price', product: card_product, price_class: '' %}
+    </div>
+</div>

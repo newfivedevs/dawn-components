@@ -246,6 +246,13 @@
                 {{ product.description }}
               </div>
             {%- endif -%}
+          {% when 'complete-the-look-single' %}
+              <div id="nf-complete-the-look-single">
+                {% if block.settings.complete_the_look_single_header_text != blank %}
+                  <div class="nf-complete-the-look-single__header">{{block.settings.complete_the_look_single_header_text}}</div>
+                {% endif %}
+                {% render 'nf-complete-the-look-single', product:block.settings.nf_complete_the_look_single_product %}
+              </div>
           {%- when 'custom_liquid' -%}
             {{ block.settings.custom_liquid }}
           {%- when 'collapsible_tab' -%}
@@ -1000,6 +1007,23 @@
         {
           "type": "paragraph",
           "content": "t:sections.main-product.blocks.rating.settings.paragraph.content"
+        }
+      ]
+    },
+    {
+      "type": "complete-the-look-single",
+      "name": "NF Complete the look",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "label": "Heading text",
+          "id": "complete_the_look_single_header_text"
+        },
+        {
+          "type": "product",
+          "id": "nf_complete_the_look_single_product",
+          "label": "Products"
         }
       ]
     }
