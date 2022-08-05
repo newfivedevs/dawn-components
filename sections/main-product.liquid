@@ -246,15 +246,24 @@
                 {{ product.description }}
               </div>
             {%- endif -%}
-          {% when 'complete-the-look-single' %}
-              {% if block.settings.nf_complete_the_look_single_product != blank %}
-                <div id="nf-complete-the-look-single">
-                  {% if block.settings.complete_the_look_single_header_text != blank %}
-                    <div class="nf-complete-the-look-single__header">{{block.settings.complete_the_look_single_header_text}}</div>
+          {% when 'complete-the-look-v2' %}
+              {% if block.settings.nf_complete_the_look_vertical_products != blank %}
+                <div id="nf-complete-the-look-vertical">
+                  {% if block.settings.complete_the_look_vertical_header_text != blank %}
+                    <div class="nf-complete-the-look-vertical__header">{{block.settings.complete_the_look_vertical_header_text}}</div>
                   {% endif %}
-                  {% render 'nf-complete-the-look-single', product:block.settings.nf_complete_the_look_single_product %}
+                  {% render 'nf-complete-the-look-vertical', products:block.settings.nf_complete_the_look_vertical_products %}
                 </div>
               {% endif %}
+          {% when 'complete-the-look-v3' %}
+            {% if block.settings.nf_complete_the_look_horizontal_products != blank %}
+              <div id="nf-complete-the-look-horizontal">
+                {% if block.settings.complete_the_look_horizontal_header_text != blank %}
+                  <div class="nf-complete-the-look-horizontal__header">{{block.settings.complete_the_look_horizontal_header_text}}</div>
+                {% endif %}
+                {% render 'nf-complete-the-look-horizontal', products:block.settings.nf_complete_the_look_horizontal_products %}
+              </div>
+            {% endif %}
           {%- when 'custom_liquid' -%}
             {{ block.settings.custom_liquid }}
           {%- when 'collapsible_tab' -%}
@@ -1013,18 +1022,35 @@
       ]
     },
     {
-      "type": "complete-the-look-single",
+      "type": "complete-the-look-v2",
       "name": "NF Complete the look",
       "limit": 1,
       "settings": [
         {
           "type": "text",
           "label": "Heading text",
-          "id": "complete_the_look_single_header_text"
+          "id": "complete_the_look_vertical_header_text"
         },
         {
-          "type": "product",
-          "id": "nf_complete_the_look_single_product",
+          "type": "product_list",
+          "id": "nf_complete_the_look_vertical_products",
+          "label": "Products"
+        }
+      ]
+    },
+    {
+      "type": "complete-the-look-v3",
+      "name": "NF Complete the look v3",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "label": "Heading text",
+          "id": "complete_the_look_horizontal_header_text"
+        },
+        {
+          "type": "product_list",
+          "id": "nf_complete_the_look_horizontal_products",
           "label": "Products"
         }
       ]

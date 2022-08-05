@@ -1,0 +1,179 @@
+<style>
+
+.nf-complete-the-look-horizontal__header {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#nf-complete-the-look-horizontal img {
+    width: 100px;
+}
+#nf-complete-the-look-horizontal-container {
+    /* display: flex;
+    justify-content: space-between; */
+
+    display: grid;
+    gap: 0 0.8rem;
+    grid-template-columns: minmax(30%,1fr) minmax(30%,1fr) minmax(30%,1fr);
+
+}
+
+.nf-complete-the-look-horizontal__content {
+    /* width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center; */
+}
+
+.nf-complete-the-look-horizontal__content .product-form__buttons {
+    display: none;
+}
+
+.nf-complete-the-look-horizontal__image {
+    position: relative;
+    text-align: center;
+}
+
+.complete-the-look-checked {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px;
+    background: #fff;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 0px;
+}
+
+.nf-complete-the-look-horizontal__hide-select {
+    display: none;
+}
+
+.nf-complete-the-look-horizontal_actions {
+    /* width: 100%; */
+}
+
+.nf-complete-the-look-horizontal__delete {
+  
+}
+
+</style>
+
+<div id="nf-complete-the-look-horizontal-container">
+    {% for look in products limit: 3 %}
+
+        {% unless look.has_only_default_variant %}
+        {% capture sizes %}
+        {%- for variant in look.variants -%}
+        {{ look.title | handleize }} | {{variant.id}} | {{variant.title | downcase }} | {{variant.available}}
+        {% if forloop.last == false %}::{% endif%}
+        {%- endfor -%}
+        {% endcapture %}
+        {% endunless %}
+
+        {% assign sizes_array = sizes | split: '::'  %}
+
+        <div class="nf-complete-the-look-horizontal__content">
+            
+            <div class="nf-complete-the-look-horizontal__image">
+                <img src="{{ look.featured_image | img_url: 'master' }}" alt="" loading="lazy" />
+            </div>
+            <div class="nf-complete-the-look-horizontal_actions">
+                <div class="select">
+                    <select class="variant_sizes_select select__select" product-id="{{look.id}}">
+                    <option  selected disabled>Select</option>
+                    {% for size in sizes_array %}
+                        {% assign size_val = size | split: '|' %}
+                        {% assign product_title =  size_val[0] | join: ', '%} 
+                        {% assign variant_id =  size_val[1] | join: ', '%} 
+                        {% assign variant_title =  size_val[2] | join: ', '%} 
+                        {% assign variant_available =  size_val[3] | strip | join: ', '%} 
+                        
+                        {% if variant_available == 'true' %}
+                            <option value="{{ variant_id | strip }}">
+                                {{ variant_title | strip}} 
+                            </option>
+                        {% endif %}
+                    
+                    {%- endfor -%}
+                    </select>
+                    {% render 'icon-caret' %}
+                </div>
+            </div>
+            <div class="product-form__buttons">
+                <product-form>
+                    {%- form 'product', look, id: product_form_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+                        <input type="hidden" class="variant-id" name="id" value="{{ look.selected_or_first_available_variant.id }}" disabled>
+                        <button
+                        id="{{ product_form_id }}-submit"
+                        type="submit"
+                        name="add"
+                        class="quick-add__submit button button--full-width button--primary"
+                        aria-haspopup="dialog"
+                        aria-labelledby="{{ product_form_id }}-submit title-{{ section_id }}-{{ look.id }}"
+                        aria-live="polite"
+                        data-sold-out-message="true"
+                        {% if look.selected_or_first_available_variant.available == false %}disabled{% endif %}
+                        >
+                        <span>
+                            {%- if look.selected_or_first_available_variant.available -%}
+                            {{ 'products.product.add_to_cart' | t }}
+                            {%- else -%}
+                            {{ 'products.product.sold_out' | t }}
+                            {%- endif -%}
+                        </span>
+                        <span class="sold-out-message hidden">
+                            {{ 'products.product.sold_out' | t }}
+                        </span>
+                        <div class="loading-overlay__spinner hidden">
+                            <svg aria-hidden="true" focusable="false" role="presentation" class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+                            <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+                            </svg>
+                        </div>
+                        </button>
+                    {%- endform -%}
+                </product-form>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        function selectVariantSize(){
+
+            document.querySelectorAll('.nf-complete-the-look-horizontal__content').forEach((element) => {
+
+                const check_mark = document.createElement('div');
+                check_mark.classList.add('complete-the-look-checked');
+                check_mark.innerHTML = '<svg  style="width:20px; color:green;" class="icon icon-checkmark color-foreground-{{ settings.accent_icons }}" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 9" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M11.35.643a.5.5 0 01.006.707l-6.77 6.886a.5.5 0 01-.719-.006L.638 4.845a.5.5 0 11.724-.69l2.872 3.011 6.41-6.517a.5.5 0 01.707-.006h-.001z" fill="currentColor"/></svg>';
+
+                // Need to find delete button from <product-form> to trigger delete
+                const delete_btn = document.createElement('button');
+                delete_btn.classList.add('nf-complete-the-look-horizontal__delete', 'button', 'button--primary');
+                delete_btn.innerHTML = ('DELETE');
+
+                element.querySelector('.variant_sizes_select').addEventListener('change', (event) => {
+                    
+                    const el = element.querySelector('.nf-complete-the-look-horizontal__image');
+                    const variantId = event.target.value;
+                    el.appendChild(check_mark);
+
+                    const actions = element.querySelector('.nf-complete-the-look-horizontal_actions');
+
+                    const select = actions.querySelector('.select');
+                    select.classList.add('nf-complete-the-look-horizontal__hide-select');
+                    actions.appendChild(delete_btn);
+
+                    var $addToCartBtn = element.querySelector(".variant-id");
+                    $addToCartBtn.setAttribute('value', variantId);
+                    element.querySelector('.quick-add__submit').click();
+                });
+            });
+        }
+        selectVariantSize();
+    });
+</script>

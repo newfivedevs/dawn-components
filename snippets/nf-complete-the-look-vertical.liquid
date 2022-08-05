@@ -1,0 +1,124 @@
+
+<style>
+  .nf-complete-the-look-vertical__header {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .nf-complete-the-look-vertical__content {
+    margin-bottom: 20px;
+    display: flex;
+    font-size: 13px;
+    line-height: 19px;
+    justify-content: space-between;
+  }
+
+  .nf-complete-the-look-vertical__content > div:first-child {
+    margin-right: 10px;
+  }
+
+  .nf-complete-the-look-vertical__content > div:last-child{
+    flex: 1;
+  }
+
+  .nf-complete-the-look-vertical__content .product-form__buttons {
+    margin-top: 10px;
+  }
+
+  #nf-complete-the-look-vertical img {
+    width: 100px;
+  }
+</style>
+
+{% for look in products %}
+<div class="nf-complete-the-look-vertical__content">
+  <div>
+    <img src="{{ look.featured_image | img_url: 'master' }}" alt="" loading="lazy" />
+  </div>
+  <div>
+    <span>{{look.title}}</span>
+        {% render 'price', product: card_product, price_class: '' %}
+
+        {% unless look.has_only_default_variant %}
+        {% capture sizes %}
+        {%- for variant in look.variants -%}
+        {{ look.title | handleize }} | {{variant.id}} | {{variant.title | downcase }} | {{variant.available}}
+        {% if forloop.last == false %}::{% endif%}
+        {%- endfor -%}
+        {% endcapture %}
+        {% endunless %}
+
+        {% assign sizes_array = sizes | split: '::'  %}
+
+    <div class="select">
+      <select class="variant_sizes_select select__select" product-id="{{look.id}}">
+        <option  selected disabled>Select</option>
+        {% for size in sizes_array %}
+          {% assign size_val = size | split: '|' %}
+          {% assign product_title =  size_val[0] | join: ', '%} 
+          {% assign variant_id =  size_val[1] | join: ', '%} 
+          {% assign variant_title =  size_val[2] | join: ', '%} 
+          {% assign variant_available =  size_val[3] | strip | join: ', '%} 
+          
+          {% if variant_available == 'true' %}
+            <option value="{{ variant_id | strip }}">
+              {{ variant_title | strip}} 
+            </option>
+          {% endif %}
+        
+        {%- endfor -%}
+      </select>
+      {% render 'icon-caret' %}
+    </div>
+    <div class="product-form__buttons">
+      <product-form>
+          {%- form 'product', look, id: product_form_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+            <input type="hidden" class="variant-id" name="id" value="{{ look.selected_or_first_available_variant.id }}" disabled>
+            <button
+              id="{{ product_form_id }}-submit"
+              type="submit"
+              name="add"
+              class="quick-add__submit button button--full-width button--primary"
+              aria-haspopup="dialog"
+              aria-labelledby="{{ product_form_id }}-submit title-{{ section_id }}-{{ look.id }}"
+              aria-live="polite"
+              data-sold-out-message="true"
+              {% if look.selected_or_first_available_variant.available == false %}disabled{% endif %}
+            >
+              <span>
+                {%- if look.selected_or_first_available_variant.available -%}
+                  {{ 'products.product.add_to_cart' | t }}
+                {%- else -%}
+                  {{ 'products.product.sold_out' | t }}
+                {%- endif -%}
+              </span>
+              <span class="sold-out-message hidden">
+                {{ 'products.product.sold_out' | t }}
+              </span>
+              <div class="loading-overlay__spinner hidden">
+                <svg aria-hidden="true" focusable="false" role="presentation" class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+                  <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+                </svg>
+              </div>
+            </button>
+          {%- endform -%}
+        </product-form>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+<script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        function selectVariantSize(){
+            document.querySelectorAll('.nf-complete-the-look-vertical__content').forEach((element) => {
+              element.querySelector('.variant_sizes_select').addEventListener('change', (event) => {
+                const variantId = event.target.value;
+                var $addToCartBtn = element.querySelector(".variant-id");
+                $addToCartBtn.setAttribute('value', variantId);
+              });
+            });
+        }
+        selectVariantSize();
+    });
+</script>
