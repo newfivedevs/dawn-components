@@ -247,12 +247,14 @@
               </div>
             {%- endif -%}
           {% when 'complete-the-look-single' %}
-              <div id="nf-complete-the-look-single">
-                {% if block.settings.complete_the_look_single_header_text != blank %}
-                  <div class="nf-complete-the-look-single__header">{{block.settings.complete_the_look_single_header_text}}</div>
-                {% endif %}
-                {% render 'nf-complete-the-look-single', product:block.settings.nf_complete_the_look_single_product %}
-              </div>
+              {% if block.settings.nf_complete_the_look_single_product != blank %}
+                <div id="nf-complete-the-look-single">
+                  {% if block.settings.complete_the_look_single_header_text != blank %}
+                    <div class="nf-complete-the-look-single__header">{{block.settings.complete_the_look_single_header_text}}</div>
+                  {% endif %}
+                  {% render 'nf-complete-the-look-single', product:block.settings.nf_complete_the_look_single_product %}
+                </div>
+              {% endif %}
           {%- when 'custom_liquid' -%}
             {{ block.settings.custom_liquid }}
           {%- when 'collapsible_tab' -%}
