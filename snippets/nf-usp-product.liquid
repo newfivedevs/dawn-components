@@ -1,0 +1,120 @@
+{%- style -%}
+
+.usp-wrap-{{section.id}} {
+    background-color: {{block.settings.usp_background_color}};
+    padding: {{block.settings.usp_container_padding}}px;
+}
+
+.usp-wrap .usp-product__item {
+    display: flex;
+    position: relative;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.usp-wrap .usp-product__item p {
+    margin: 0px;
+}
+
+.usp-product-content__text {
+    font-size: {{block.settings.usp_font_size}}px;
+    color: {{block.settings.usp_font_color}};
+
+}
+
+.usp-wrap .usp-product__item svg, .usp-wrap .usp-product__item img{
+    max-width: 20px;
+    margin-right: 20px;
+    width: 100%;
+}
+
+{%- endstyle -%}
+
+<div class="usp-wrap usp-wrap-{{section.id}}">
+
+    {% if block.settings.usp_product_text != blank %}
+        <div class="usp-product__item usp-product__item">
+            {% if block.settings.usp_product_icon_svg != blank %}
+                {{ block.settings.usp_product_icon_svg }}
+            {% else %}
+                {% if block.settings.usp_product_icon_image != blank %}
+                    <img  src="{{ block.settings.usp_product_icon_image | image_url: 'master' }}" alt="usp-icon">
+                {% endif %}
+            {% endif %}
+            {% if block.settings.usp_product_text != blank %}
+                <div class="usp-product-content__text">
+                    {{ block.settings.usp_product_text }}
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    {% if block.settings.usp_product_text_2 != blank %}
+        <div class="usp-product__item usp-product__item">
+            {% if block.settings.usp_product_icon_svg_2 != blank %}
+                {{ block.settings.usp_product_icon_svg_2 }}
+            {% else %}
+                {% if block.settings.usp_product_icon_image_2 != blank %}
+                    <img  src="{{ block.settings.usp_product_icon_image_2 | image_url: 'master' }}" alt="usp-icon">
+                {% endif %}
+            {% endif %}
+            {% if block.settings.usp_product_text_2 != blank %}
+                <div class="usp-product-content__text">
+                    {{ block.settings.usp_product_text_2 }}
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    {% if block.settings.usp_product_text_3 != blank %}
+        <div class="usp-product__item usp-product__item">
+            {% if block.settings.usp_product_icon_svg_3 != blank %}
+                {{ block.settings.usp_product_icon_svg_3 }}
+            {% else %}
+                {% if block.settings.usp_product_icon_image_3 != blank %}
+                    <img  src="{{ block.settings.usp_product_icon_image_3 | image_url: 'master' }}" alt="usp-icon">
+                {% endif %}
+            {% endif %}
+            {% if block.settings.usp_product_text_3 != blank %}
+                <div class="usp-product-content__text">
+                    {{ block.settings.usp_product_text_3 }}
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+    
+    {% if block.settings.usp_product_text_4 != blank %}
+        <div class="usp-product__item usp-product__item">
+            {% if block.settings.usp_product_icon_svg_4 != blank %}
+                {{ block.settings.usp_product_icon_svg_4 }}
+            {% else %}
+                {% if block.settings.usp_product_icon_image_4 != blank %}
+                    <img  src="{{ block.settings.usp_product_icon_image_4 | image_url: 'master' }}" alt="usp-icon">
+                {% endif %}
+            {% endif %}
+            {% if block.settings.usp_product_text_4 != blank %}
+                <div class="usp-product-content__text">
+                    {{ block.settings.usp_product_text_4 }}
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+    
+    {% if block.settings.usp_product_text_5 != blank %}
+        <div class="usp-product__item usp-product__item">
+            {% if block.settings.usp_product_icon_svg_5 != blank %}
+                {{ block.settings.usp_product_icon_svg_5 }}
+            {% else %}
+                {% if block.settings.usp_product_icon_image_5 != blank %}
+                    <img  src="{{ block.settings.usp_product_icon_image_5 | image_url: 'master' }}" alt="usp-icon">
+                {% endif %}
+            {% endif %}
+            {% if block.settings.usp_product_text_5 != blank %}
+                <div class="usp-product-content__text">
+                    {{ block.settings.usp_product_text_5 }}
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+
+</div>

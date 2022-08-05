@@ -1,19 +1,14 @@
 Create USP Product
 
-section name: nf-usp-component.liquid
-create a liquid file inside section folder named: nf-usp-component.liquid
+section name: nf-usp-product.liquid
+create a liquid file inside snippets folder named: nf-usp-product.liquid
 
-Code:
-
-
+Use this code
 {%- style -%}
 
 .usp-wrap-{{section.id}} {
-    background-color: {{section.settings.usp_background_color}};
-    padding: {{section.settings.usp_container_padding}}px;
-}
-
-.usp-wrap {
+    background-color: {{block.settings.usp_background_color}};
+    padding: {{block.settings.usp_container_padding}}px;
 }
 
 .usp-wrap .usp-product__item {
@@ -27,6 +22,12 @@ Code:
     margin: 0px;
 }
 
+.usp-product-content__text {
+    font-size: {{block.settings.usp_font_size}}px;
+    color: {{block.settings.usp_font_color}};
+
+}
+
 .usp-wrap .usp-product__item svg, .usp-wrap .usp-product__item img{
     max-width: 20px;
     margin-right: 20px;
@@ -35,112 +36,251 @@ Code:
 
 {%- endstyle -%}
 
-<div class="page-width">
-    <div class="usp-wrap usp-wrap-{{section.id}}">
-        {%- for block in section.blocks -%} 
-            {% case block.type %}
-            {% when 'usp-product' %}
-                
-                <div class="usp-product__item usp-product__item-{{block.id}}">
+<div class="usp-wrap usp-wrap-{{section.id}}">
 
-                    {% if block.settings.usp_product_icon_svg != blank %}
-                        {{ block.settings.usp_product_icon_svg }}
-                    {% else %}
-                        {% if block.settings.usp_product_icon_image != blank %}
-                            <img  src="{{ block.settings.usp_product_icon_image | image_url: 'master' }}" alt="usp-icon">
-                        {% endif %}
-                    {% endif %}
-
-                    {% if block.settings.usp_product_text != blank %}
-                        <div class="usp-product-content__text">
-                            {{ block.settings.usp_product_text }}
-                        </div>
-                    {% endif %}
-
+    {% if block.settings.usp_product_text != blank %}
+        <div class="usp-product__item usp-product__item">
+            {% if block.settings.usp_product_icon_svg != blank %}
+                {{ block.settings.usp_product_icon_svg }}
+            {% else %}
+                {% if block.settings.usp_product_icon_image != blank %}
+                    <img  src="{{ block.settings.usp_product_icon_image | image_url: 'master' }}" alt="usp-icon">
+                {% endif %}
+            {% endif %}
+            {% if block.settings.usp_product_text != blank %}
+                <div class="usp-product-content__text">
+                    {{ block.settings.usp_product_text }}
                 </div>
-                
-                {%- style -%} 
-                    .usp-product__item-{{block.id}} .usp-product-content__text {
-                        color: {{block.settings.usp_font_color}};
-                        font-size: {{block.settings.usp_font_size}}px;
-                    }
-                {%- endstyle -%}
-            {% endcase %}
-        {% endfor %}
-    </div>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    {% if block.settings.usp_product_text_2 != blank %}
+        <div class="usp-product__item usp-product__item">
+            {% if block.settings.usp_product_icon_svg_2 != blank %}
+                {{ block.settings.usp_product_icon_svg_2 }}
+            {% else %}
+                {% if block.settings.usp_product_icon_image_2 != blank %}
+                    <img  src="{{ block.settings.usp_product_icon_image_2 | image_url: 'master' }}" alt="usp-icon">
+                {% endif %}
+            {% endif %}
+            {% if block.settings.usp_product_text_2 != blank %}
+                <div class="usp-product-content__text">
+                    {{ block.settings.usp_product_text_2 }}
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    {% if block.settings.usp_product_text_3 != blank %}
+        <div class="usp-product__item usp-product__item">
+            {% if block.settings.usp_product_icon_svg_3 != blank %}
+                {{ block.settings.usp_product_icon_svg_3 }}
+            {% else %}
+                {% if block.settings.usp_product_icon_image_3 != blank %}
+                    <img  src="{{ block.settings.usp_product_icon_image_3 | image_url: 'master' }}" alt="usp-icon">
+                {% endif %}
+            {% endif %}
+            {% if block.settings.usp_product_text_3 != blank %}
+                <div class="usp-product-content__text">
+                    {{ block.settings.usp_product_text_3 }}
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+    
+    {% if block.settings.usp_product_text_4 != blank %}
+        <div class="usp-product__item usp-product__item">
+            {% if block.settings.usp_product_icon_svg_4 != blank %}
+                {{ block.settings.usp_product_icon_svg_4 }}
+            {% else %}
+                {% if block.settings.usp_product_icon_image_4 != blank %}
+                    <img  src="{{ block.settings.usp_product_icon_image_4 | image_url: 'master' }}" alt="usp-icon">
+                {% endif %}
+            {% endif %}
+            {% if block.settings.usp_product_text_4 != blank %}
+                <div class="usp-product-content__text">
+                    {{ block.settings.usp_product_text_4 }}
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+    
+    {% if block.settings.usp_product_text_5 != blank %}
+        <div class="usp-product__item usp-product__item">
+            {% if block.settings.usp_product_icon_svg_5 != blank %}
+                {{ block.settings.usp_product_icon_svg_5 }}
+            {% else %}
+                {% if block.settings.usp_product_icon_image_5 != blank %}
+                    <img  src="{{ block.settings.usp_product_icon_image_5 | image_url: 'master' }}" alt="usp-icon">
+                {% endif %}
+            {% endif %}
+            {% if block.settings.usp_product_text_5 != blank %}
+                <div class="usp-product-content__text">
+                    {{ block.settings.usp_product_text_5 }}
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+
 </div>
 
 
-{% schema %}
+Put this code main-product.liquid schema
+
 {
-  "name": "NF USP Product",
-  "tag": "section",
-  "class": "section",
-  "templates": ["product"],
-  "settings": [
-    {
-        "type": "color",
-        "id": "usp_background_color",
-        "label": "Background color"
-    },
-    {
-        "type": "range",
-        "id": "usp_container_padding",
-        "min": 10,
-        "max": 50,
-        "step": 1,
-        "unit": "px",
-        "label": "Container padding",
-        "default": 10
+      "type": "usp-product",
+      "name": "NF USP Product",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Product USP Content 1"
+        },
+        {
+            "type": "richtext",
+            "id": "usp_product_text",          
+            "label": "Product USP text",
+            "default": "<p></p>",
+            "info": "Add product usp label"
+        },
+        {
+          "type": "liquid",
+          "id": "usp_product_icon_svg",
+          "label": "SVG Icon",
+          "info": "Even if image is setup this will still be rendered as icon if not empty"
+        },
+        {
+            "type": "image_picker",
+            "id": "usp_product_icon_image",
+            "label": "Image Icon",
+            "info": "If svg is not available use this image"
+        },
+        {
+          "type": "header",
+          "content": "Product USP Content 2"
+        },
+        {
+          "type": "richtext",
+          "id": "usp_product_text_2",          
+          "label": "Product USP text",
+          "default": "<p></p>",
+          "info": "Add product usp label"
+      },
+        {
+          "type": "liquid",
+          "id": "usp_product_icon_svg_2",
+          "label": "SVG Icon",
+          "info": "Even if image is setup this will still be rendered as icon if not empty"
+        },
+        {
+            "type": "image_picker",
+            "id": "usp_product_icon_image_2",
+            "label": "Image Icon",
+            "info": "If svg is not available use this image"
+        },
+        {
+          "type": "header",
+          "content": "Product USP Content 3"
+        },
+        {
+          "type": "richtext",
+          "id": "usp_product_text_3",          
+          "label": "Product USP text",
+          "default": "<p></p>",
+          "info": "Add product usp label"
+        },
+        {
+          "type": "liquid",
+          "id": "usp_product_icon_svg_3",
+          "label": "SVG Icon",
+          "info": "Even if image is setup this will still be rendered as icon if not empty"
+        },
+        {
+            "type": "image_picker",
+            "id": "usp_product_icon_image_3",
+            "label": "Image Icon",
+            "info": "If svg is not available use this image"
+        },
+        {
+          "type": "header",
+          "content": "Product USP Content 4"
+        },
+        {
+          "type": "richtext",
+          "id": "usp_product_text_4",          
+          "label": "Product USP text",
+          "default": "<p></p>",
+          "info": "Add product usp label"
+        },
+        {
+          "type": "liquid",
+          "id": "usp_product_icon_svg_4",
+          "label": "SVG Icon",
+          "info": "Even if image is setup this will still be rendered as icon if not empty"
+        },
+        {
+            "type": "image_picker",
+            "id": "usp_product_icon_image_4",
+            "label": "Image Icon",
+            "info": "If svg is not available use this image"
+        },
+        {
+          "type": "header",
+          "content": "Product USP Content 5"
+        },
+        {
+          "type": "richtext",
+          "id": "usp_product_text_5",          
+          "label": "Product USP text",
+          "default": "<p></p>",
+          "info": "Add product usp label"
+        },
+        {
+          "type": "liquid",
+          "id": "usp_product_icon_svg_5",
+          "label": "SVG Icon",
+          "info": "Even if image is setup this will still be rendered as icon if not empty"
+        },
+        {
+            "type": "image_picker",
+            "id": "usp_product_icon_image_5",
+            "label": "Image Icon",
+            "info": "If svg is not available use this image"
+        },
+        {
+          "type": "header",
+          "content": "USP block settings"
+        },
+        {
+          "type": "color",
+          "id": "usp_background_color",
+          "label": "Background color"
+        },
+        {
+            "type": "range",
+            "id": "usp_container_padding",
+            "min": 10,
+            "max": 50,
+            "step": 1,
+            "unit": "px",
+            "label": "Container padding",
+            "default": 10
+        },
+        {
+            "type": "range",
+            "id": "usp_font_size",
+            "min": 8,
+            "max": 15,
+            "step": 1,
+            "unit": "px",
+            "label": "Font size",
+            "default": 10
+        },
+        {
+            "type": "color",
+            "id": "usp_font_color",
+            "label": "Font color"
+        }
+      ]
     }
-  ],
-  "blocks":[
-    {
-        "type": "usp-product",
-        "name": "USP Product Item",
-        "limit": 3,
-        "settings": [
-            {
-                "type": "richtext",
-                "id": "usp_product_text",          
-                "label": "Product USP",
-                "default": "<p></p>",
-                "info": "Add product usp label"
-            },
-            {
-                "type": "range",
-                "id": "usp_font_size",
-                "min": 8,
-                "max": 15,
-                "step": 1,
-                "unit": "px",
-                "label": "Font size",
-                "default": 10
-            },
-            {
-                "type": "color",
-                "id": "usp_font_color",
-                "label": "Font color"
-            },
-            {
-                "type": "liquid",
-                "id": "usp_product_icon_svg",
-                "label": "SVG Icon",
-                "info": "Even if image is setup this will still be rendered as icon if not empty"
-            },
-            {
-                "type": "image_picker",
-                "id": "usp_product_icon_image",
-                "label": "Image Icon",
-                "info": "If svg is not available use this image"
-            }
-        ]
-    }
-  ],
-  "presets": [
-    {
-      "name": "NF USP Product"
-    }
-  ]
-}
-{% endschema %}
