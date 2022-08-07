@@ -3,7 +3,7 @@ Put this file in your snippet folder
 
 Metafield name: Complete the look
 
-1. Put this code under  {%- when 'description'-%} 
+1. Put this code under  {%- when 'description'-%} in main-produc.liquid
 {% when 'complete-the-look-v2' %}
               {% if block.settings.nf_complete_the_look_vertical_products != blank %}
                 <div id="nf-complete-the-look-vertical">
@@ -52,18 +52,18 @@ Metafield name: Complete the look
 
 2. add to schema main-product.liquid
 {
-      "type": "complete-the-look-v3",
-      "name": "NF Complete the look v3",
+      "type": "complete-the-look-v2",
+      "name": "NF Complete the look",
       "limit": 1,
       "settings": [
         {
           "type": "text",
           "label": "Heading text",
-          "id": "complete_the_look_horizontal_header_text"
+          "id": "complete_the_look_vertical_header_text"
         },
         {
           "type": "product_list",
-          "id": "nf_complete_the_look_horizontal_products",
+          "id": "nf_complete_the_look_vertical_products",
           "label": "Products"
         }
       ]

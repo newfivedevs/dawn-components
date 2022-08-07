@@ -1,0 +1,39 @@
+
+Snippet name: nf-complete-the-look-horizonal.liquid
+Put this file in your snippet folder
+
+Metafield name: Complete the look
+
+1. Put this code under {%- when 'description' -%} in main-product.liquid
+{% when 'complete-the-look-v3' %}
+            {% if block.settings.nf_complete_the_look_horizontal_products != blank %}
+              <div id="nf-complete-the-look-horizontal">
+                {% if block.settings.complete_the_look_horizontal_header_text != blank %}
+                  <div class="nf-complete-the-look-horizontal__header">{{block.settings.complete_the_look_horizontal_header_text}}</div>
+                {% endif %}
+                {% render 'nf-complete-the-look-horizontal', products:block.settings.nf_complete_the_look_horizontal_products %}
+              </div>
+            {% endif %}
+
+
+2. add to schema main-product.liquid
+{
+      "type": "complete-the-look-v3",
+      "name": "NF Complete the look v3",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "label": "Heading text",
+          "id": "complete_the_look_horizontal_header_text"
+        },
+        {
+          "type": "product_list",
+          "id": "nf_complete_the_look_horizontal_products",
+          "label": "Products"
+        }
+      ]
+    }
+
+3. Change the code under {%- for item in cart.items -%} in cart-drawer.liquid
+<tr id="CartDrawer-Item-{{ item.index | plus: 1 }}" class="cart-item CartDrawer-Item-{{item.variant.id}}" role="row" >
