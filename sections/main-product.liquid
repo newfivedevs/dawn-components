@@ -259,7 +259,10 @@
             {% if block.settings.nf_complete_the_look_horizontal_products != blank %}
               <div id="nf-complete-the-look-horizontal">
                 {% if block.settings.complete_the_look_horizontal_header_text != blank %}
-                  <div class="nf-complete-the-look-horizontal__header">{{block.settings.complete_the_look_horizontal_header_text}}</div>
+                  <div class="nf-complete-the-look-horizontal__header">
+                    <span>{{block.settings.complete_the_look_horizontal_header_text}}</span>
+                    <a href="/collections/all">View all</a>
+                  </div>
                 {% endif %}
                 {% render 'nf-complete-the-look-horizontal', products:block.settings.nf_complete_the_look_horizontal_products %}
               </div>
