@@ -51,9 +51,17 @@
         },
         "768b788b-c9b3-4c0e-97d6-a2a5d25cf3cf": {
           "type": "complete-the-look-v2",
+          "disabled": true,
           "settings": {
             "complete_the_look_vertical_header_text": "Complete the look",
             "nf_complete_the_look_vertical_products": "{{ product.metafields.custom.complete_the_look.value }}"
+          }
+        },
+        "a15945dc-bdfc-4957-8d8b-ff5d0ad9c4b8": {
+          "type": "complete-the-look-v3",
+          "settings": {
+            "complete_the_look_horizontal_header_text": "Complete the look",
+            "nf_complete_the_look_horizontal_products": "{{ product.metafields.custom.complete_the_look.value }}"
           }
         },
         "collapsible-row-0": {
@@ -109,6 +117,7 @@
         "buy_buttons",
         "description",
         "768b788b-c9b3-4c0e-97d6-a2a5d25cf3cf",
+        "a15945dc-bdfc-4957-8d8b-ff5d0ad9c4b8",
         "collapsible-row-0",
         "collapsible-row-1",
         "collapsible-row-2",
