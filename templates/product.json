@@ -41,12 +41,7 @@
         "buy_buttons": {
           "type": "buy_buttons",
           "settings": {
-            "show_dynamic_checkout": true
-          }
-        },
-        "description": {
-          "type": "description",
-          "settings": {
+            "show_dynamic_checkout": false
           }
         },
         "ea623126-d6e8-4f54-bd46-f9db1559db10": {
@@ -62,10 +57,15 @@
             "usp_product_icon_svg_4": "",
             "usp_product_text_5": "",
             "usp_product_icon_svg_5": "",
-            "usp_background_color": "#f7f7f7",
-            "usp_container_padding": 15,
-            "usp_font_size": 13,
-            "usp_font_color": "#1e5594"
+            "usp_background_color": "#f3f3f3",
+            "usp_container_padding": 10,
+            "usp_font_size": 12,
+            "usp_font_color": "#000000"
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {
           }
         },
         "collapsible-row-0": {
@@ -119,8 +119,8 @@
         "variant_picker",
         "quantity_selector",
         "buy_buttons",
-        "description",
         "ea623126-d6e8-4f54-bd46-f9db1559db10",
+        "description",
         "collapsible-row-0",
         "collapsible-row-1",
         "collapsible-row-2",
