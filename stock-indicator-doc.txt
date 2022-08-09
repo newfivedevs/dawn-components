@@ -1,0 +1,37 @@
+
+snippet file name: nf-instock-message
+
+
+1. add this code {%- when 'in_stock_msg' -%}
+          {% render 'nf-instock-message' %}
+ under {%- when 'variant_picker' -%}
+
+2. add to schema main-product.liquid
+{
+      "type": "in_stock_msg",
+      "name": "In stock message",
+      "limit": 1,
+      "settings": []
+    }
+
+
+3. add instock message to update en.default.json
+"products": {
+    "product": {
+     
+      "media": {
+      
+      },
+      "quantity": {
+     
+      },
+      "pickup_availability": {
+      
+      },
+      "price": {
+     
+      },
+      "share": "Share this product",
+      "in_stock": "In stock, ships immediately",
+      "limited_stock": "Limited stock, direct delivery"
+    }

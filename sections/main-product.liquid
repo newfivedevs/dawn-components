@@ -409,6 +409,8 @@
                 </div>
               </div>
             </noscript>
+          {%- when 'in_stock_msg' -%}
+           {% render 'nf-instock-message' variant:variant %}
           {%- when 'buy_buttons' -%}
             <div {{ block.shopify_attributes }}>
               <product-form class="product-form">
@@ -645,6 +647,12 @@
   "blocks": [
     {
       "type": "@app"
+    },
+    {
+      "type": "in_stock_msg",
+      "name": "NF In stock message",
+      "limit": 1,
+      "settings": []
     },
     {
       "type": "text",
