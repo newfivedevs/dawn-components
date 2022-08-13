@@ -3,6 +3,8 @@
 .usp-wrap-{{section.id}} {
     background-color: {{block.settings.usp_background_color}};
     padding: {{block.settings.usp_container_padding}}px;
+    margin-top: 0px;
+    margin-bottom: 20px;
 }
 
 .usp-wrap .usp-product__item {
@@ -10,6 +12,10 @@
     position: relative;
     align-items: center;
     margin-bottom: 10px;
+}
+
+.usp-wrap .usp-product__item:last-child {
+    margin-bottom:0px;
 }
 
 .usp-wrap .usp-product__item p {
@@ -23,7 +29,7 @@
 }
 
 .usp-wrap .usp-product__item svg, .usp-wrap .usp-product__item img{
-    max-width: 20px;
+    max-width: 15px;
     margin-right: 20px;
     width: 100%;
 }
