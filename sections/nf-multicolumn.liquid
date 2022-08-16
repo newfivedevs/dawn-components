@@ -1,0 +1,335 @@
+<link rel="preload stylesheet" href="{{ 'section-nf-multicolumn.css' | asset_url }}" as="style" media="print" onload="this.media='all'" crossorigin>
+{% style %}
+  {% for block in section.blocks %}
+    {% if block.settings.nf_block_mobile_image != blank  %}
+      @media screen and (min-width: 750px) {
+      #nf-multicolumn--{{ section.id }} .banner__media-desktop {
+        display: block !important;
+      }
+      #nf-multicolumn--{{ section.id }} .banner__media-mobile {
+        display: none !important;
+      }
+    }
+    @media screen an  (max-width: 749px) {
+      #nf-multicolumn--{{ section.id }} .banner__media-desktop {
+        display: none !important;
+      }
+      #nf-multicolumn--{{ section.id }} .banner__media-mobile {
+        display: block !important;
+      }
+    }
+    {% endif %}
+  {% endfor %}
+  
+{% endstyle %}
+{%- style -%}
+  :root {
+    --column-gap: {{ section.settings.nf_column_gap | divided_by: 10 }}rem;
+  }
+
+  .section-{{ section.id }}-padding {
+    padding-top: calc({{ section.settings.padding_top }}px * 0.75);
+    padding-bottom: calc({{ section.settings.padding_bottom }}px  * 0.75);
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    #nf-multicolumn--{{ section.id }} .nf_multicolumn--grid__item {
+      margin-bottom: var(--column-gap);
+    }
+  }
+
+  {% if section.settings.nf_column_hover_effect %}
+  #nf-multicolumn--{{ section.id }} .column__container:hover .column__image--wrapper img {
+    transform: scale(1.25);
+    -moz-transform: scale(1.25);
+    -webkit-transform: scale(1.25);
+    -ms-transform: scale(1.25);
+  }
+  {% endif %}
+
+  {% assign column_grid_count = section.settings.nf_column_grid | times: 1 %}
+
+  {% if column_grid_count <= 2 %}
+    #nf-multicolumn--{{ section.id }} .column__info--container {
+      padding: 0 2rem 2rem;
+    }
+    
+    @media screen and (min-width: 990px) {
+      #nf-multicolumn--{{ section.id }} .column__info--container {
+        padding: 0 4rem 3.9rem;
+      }
+    }
+  {% endif %}
+
+  {% if column_grid_count >= 3 %}
+    #nf-multicolumn--{{ section.id }} .column__info--container {
+      padding: 0 1.5rem 1.5rem;
+    }
+    
+    @media screen and (min-width: 990px) {
+      #nf-multicolumn--{{ section.id }} .column__info--container {
+        padding: 0 2rem 2rem;
+      }
+    }
+  {% endif %}
+    
+
+{%- endstyle -%}
+
+<div class="nf-multicoulmn section-{{ section.id }}-padding {% if section.settings.nf_enable_fullwidth != true %}page-width{% endif %}" id="nf-multicolumn--{{ section.id }}">
+  <div class="title-wrapper-with-link{% if section.settings.nf_multicoumn_title == blank %} title-wrapper-with-link--no-heading{% endif %} title-wrapper--no-top-margin {% if section.settings.nf_multicoumn_title == blank %}hidden{% endif %} title-wrapper--halign-{{ section.settings.nf_title_alignment }}">
+    <h2 class="title inline bold">{{ section.settings.nf_multicoumn_title | escape }}</h2>
+  </div>
+  <div class="nf_multicolumn--grid nf_multicolumn--grid--{{ section.settings.nf_column_grid }}-col">
+    {% for block in section.blocks %}
+      <div class="nf_multicolumn--grid__item">
+        <div class="column__container {% if block.settings.nf_block_enable_gradient %}black--gradient{% endif %}">
+          <div class="column__image--wrapper image--ratio image--{{ section.settings.column_image_ratio }}">
+            <img 
+            class="banner__media-desktop" 
+            src="{{ block.settings.nf_block_image | img_url: 'master' }}" 
+            alt="{{ block.settings.nf_block_image.alt }}"
+            width="{{ block.settings.nf_block_image.width }}"
+            height="{{ block.settings.nf_block_image.height }}"
+            >
+              {% if block.settings.nf_block_mobile_image != blank %}
+            <img 
+              class="banner__media-mobile" 
+              src="{{ block.settings.nf_block_mobile_image | img_url: 'master' }}" 
+              alt="{{ block.settings.nf_block_mobile_image.alt }}"
+              width="{{ block.settings.nf_block_mobile_image.width }}"
+              height="{{ block.settings.nf_block_mobile_image.height }}"
+              >
+              {% endif %}
+          </div>
+          <div class="column__info--container title-wrapper--halign-{{ section.settings.nf_title_alignment }}">            
+            <h3 class="column__info--title {% if block.settings.nf_block_title == blank %}visually-hidden{% endif %}" style="font-size:{{ block.settings.nf_block_title_size }}px;color:{{ block.settings.nf_block_title_color }};">{{ block.settings.nf_block_title | escape }}</h3>
+            <p class="column__info--subtitle {% if block.settings.nf_block_subtitle == blank %}visually-hidden{% endif %}" style="color:{{ block.settings.nf_block_subtitle_color }};">{{ block.settings.nf_block_subtitle | escape }}</p>
+            {% if block.settings.nf_button_link %}
+            <a class="button button--{{ block.settings.nf_block_button }}" href="{{ block.settings.nf_button_link }}">{{ block.settings.nf_button_label | escape }}</a>              
+            {% endif %}
+          </div>
+        </div>
+      </div>        
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.nf_multicolumn.name",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "nf_multicoumn_title",
+      "label": "t:sections.nf_multicolumn.settings.section_title.label"
+    },
+    {
+      "type": "select",
+      "id": "nf_title_alignment",
+      "label": "t:sections.nf_multicolumn.settings.select.label_1",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.nf_multicolumn.settings.select.options.label_1"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.nf_multicolumn.settings.select.options.label_2"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.nf_multicolumn.settings.select.options.label_3"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "checkbox",
+      "id": "nf_enable_fullwidth",
+      "label": "t:sections.nf_multicolumn.settings.checkbox.label_1",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "nf_column_grid",
+      "label": "t:sections.nf_multicolumn.settings.select.column_grid.label_1",
+      "info": "t:sections.nf_multicolumn.settings.select.column_grid.info_1",
+      "options": [
+        {
+          "value": "2",
+          "label": "t:sections.nf_multicolumn.settings.select.column_grid.options.label_1"
+        },
+        {
+          "value": "3",
+          "label": "t:sections.nf_multicolumn.settings.select.column_grid.options.label_2"
+        },
+        {
+          "value": "4",
+          "label": "t:sections.nf_multicolumn.settings.select.column_grid.options.label_3"
+        }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "range",
+      "id": "nf_column_gap",
+      "label": "t:sections.nf_multicolumn.settings.range.label_1",
+      "unit": "px",
+      "min": 10,
+      "max": 50,
+      "step": 1,
+      "default": 10
+    },    
+    {
+      "type": "select",
+      "id": "column_image_ratio",
+      "label": "t:sections.nf_category_slider.select.label_3",
+      "options": [
+        {
+          "value": "portrait",
+          "label": "t:sections.nf_category_slider.select.option_3.label_1"
+        },
+        {
+          "value": "square",
+          "label": "t:sections.nf_category_slider.select.option_3.label_2"
+        },
+        {
+          "value": "landscape",
+          "label": "t:sections.nf_category_slider.select.option_3.label_3"
+        }
+      ],
+      "default": "square"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    },
+    {
+      "type": "checkbox",
+      "id": "nf_column_hover_effect",
+      "label": "t:sections.nf_multicolumn.settings.checkbox.label_2",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "t:sections.nf_multicolumn.blocks.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "nf_block_title",
+          "label": "t:sections.nf_multicolumn.blocks.settings.block.text.label_1"
+        },
+        {
+          "type": "range",
+          "id": "nf_block_title_size",
+          "label": "t:sections.nf_multicolumn.blocks.settings.block.range.label_1",
+          "unit": "px",
+          "min": 1,
+          "max": 40,
+          "step": 1,
+          "default": 20
+        },
+        {
+          "type": "color",
+          "id": "nf_block_title_color",
+          "label": "t:sections.nf_multicolumn.blocks.settings.block.color.label_1",
+          "default": "#000000"
+        },
+        {
+          "type": "text",
+          "id": "nf_block_subtitle",
+          "label": "t:sections.nf_multicolumn.blocks.settings.block.text.label_2"
+        },
+        {
+          "type": "color",
+          "id": "nf_block_subtitle_color",
+          "label": "t:sections.nf_multicolumn.blocks.settings.block.color.label_2",
+          "default": "#000000"
+        },
+        {
+          "type": "select",
+          "id": "nf_block_button",
+          "label": "t:sections.nf_multicolumn.blocks.settings.block.select.label_1",
+          "options": [
+            {
+              "value": "primary",
+              "label": "t:sections.nf_multicolumn.blocks.settings.block.select.option.label_1"
+            },
+            {
+              "value": "secondary",
+              "label": "t:sections.nf_multicolumn.blocks.settings.block.select.option.label_2"
+            },
+            {
+              "value": "outline",
+              "label": "t:sections.nf_multicolumn.blocks.settings.block.select.option.label_3"
+            }
+          ],
+          "default": "primary"
+        },
+        {
+          "type": "text",
+          "id": "nf_button_label",
+          "label": "t:sections.nf_multicolumn.blocks.settings.block.button.label_1"
+        },
+        {
+          "type": "url",
+          "id": "nf_button_link",
+          "label": "t:sections.nf_multicolumn.blocks.settings.block.button.link_1"
+        },
+        {
+          "type": "image_picker",
+          "id": "nf_block_image",
+          "label": "t:sections.nf_multicolumn.blocks.settings.block.image.label_1"
+        },
+        {
+          "type": "image_picker",
+          "id": "nf_block_mobile_image",
+          "label": "Mobile Image"
+        },
+        {
+          "type": "checkbox",
+          "id": "nf_block_enable_gradient",
+          "label": "t:sections.nf_multicolumn.blocks.settings.block.checkbox.label_1",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.nf_multicolumn.name"
+    }
+  ]
+}
+{% endschema %}

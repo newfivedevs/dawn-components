@@ -1,0 +1,120 @@
+css name: section-nf-multicolumn.css
+section name: nf-multicolumn.liquid
+
+en.default.schema.json
+"nf_multicolumn": {
+      "name": "NF - Multicolumn",
+      "settings": {
+        "section_title": {
+          "label": "Section title"
+        },
+        "select": {
+          "label_1": "Title alignment",
+          "options": {
+            "label_1": "Left",
+            "label_2": "Center",
+            "label_3": "Right"
+          },
+          "column_grid": {
+            "label_1": "Column grid",
+            "info_1": "Number of grid",
+            "options": {
+              "label_1": "2 Columns",
+              "label_2": "3 Columns",
+              "label_3": "4 Columns"
+            }
+          }
+        },
+        "checkbox": {
+          "label_1": "Set as full width container",
+          "label_2": "Enable hover effect"
+        },
+        "range": {
+          "label_1": "Column gap"
+        }
+      },
+      "blocks": {
+        "name": "NF Column",
+        "settings": {
+          "block": {
+            "text": {
+              "label_1": "Block title",
+              "label_2": "Block subtitle"
+            },
+            "range": {
+              "label_1": "Block title font size"
+            },
+            "color": {
+              "label_1": "Block title color",
+              "label_2": "Block subtitle color"
+            },
+            "select": {
+              "label_1": "Block button style",
+              "option": {
+                "label_1": "Primary",
+                "label_2": "Secondary",
+                "label_3": "Outline"
+              }
+            },
+            "button": {
+              "label_1": "Button label",
+              "link_1": "Button link"
+            },
+            "image": {
+              "label_1": "Select image"
+            },
+            "checkbox": {
+              "label_1": "Enable black gradient"
+            }
+          }
+        }
+      }
+    },
+
+under "collapsible_content"
+"nf_category_slider": {
+      "name": "NF - Category Slider",
+      "heading": {
+        "label": "Heading"
+      },
+      "header": {
+        "content_1": "Button",
+        "info_1": "Button inline with title"
+      },
+      "button": {
+        "label_1": "Button label",
+        "label_2": "Button link"
+      },
+      "select": {
+        "label_1": "Column amount desktop",
+        "label_2": "Column amount mobile",
+        "label_3": "Image ratio",
+        "options_1": {
+          "label_1": "3.2 Columns",
+          "label_2": "4.2 Columns",
+          "label_3": "5.2 Columns"
+        },
+        "options_2": {
+          "label_1": "1.2 Columns",
+          "label_2": "2.2 Columns"
+        },
+        "option_3": {
+          "label_1": "Portrait",
+          "label_2": "Square",
+          "label_3": "Landscape"
+        }
+      },
+      "hover_effect": {
+        "label": "Enable hover effect"
+      },
+      "blocks": {
+        "name_1": "Category column",
+        "image": {
+          "label_1": "Image"
+        },
+        "link": {
+          "label_1": "Link label",
+          "label_2": "Link"
+        }
+      }
+    }
