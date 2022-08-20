@@ -41,12 +41,7 @@
         "buy_buttons": {
           "type": "buy_buttons",
           "settings": {
-            "show_dynamic_checkout": true
-          }
-        },
-        "description": {
-          "type": "description",
-          "settings": {
+            "show_dynamic_checkout": false
           }
         },
         "768b788b-c9b3-4c0e-97d6-a2a5d25cf3cf": {
@@ -61,6 +56,11 @@
           "settings": {
             "complete_the_look_horizontal_header_text": "Complete the look",
             "nf_complete_the_look_horizontal_products": "{{ product.metafields.custom.complete_the_look.value }}"
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {
           }
         },
         "collapsible-row-0": {
@@ -114,9 +114,9 @@
         "variant_picker",
         "quantity_selector",
         "buy_buttons",
-        "description",
         "768b788b-c9b3-4c0e-97d6-a2a5d25cf3cf",
         "a15945dc-bdfc-4957-8d8b-ff5d0ad9c4b8",
+        "description",
         "collapsible-row-0",
         "collapsible-row-1",
         "collapsible-row-2",
