@@ -3,12 +3,15 @@ Create USP Product
 section name: nf-usp-product.liquid
 create a liquid file inside snippets folder named: nf-usp-product.liquid
 
-Use this code
+1. use this code
+
 {%- style -%}
 
 .usp-wrap-{{section.id}} {
     background-color: {{block.settings.usp_background_color}};
     padding: {{block.settings.usp_container_padding}}px;
+    margin-top: 0px;
+    margin-bottom: 20px;
 }
 
 .usp-wrap .usp-product__item {
@@ -16,6 +19,10 @@ Use this code
     position: relative;
     align-items: center;
     margin-bottom: 10px;
+}
+
+.usp-wrap .usp-product__item:last-child {
+    margin-bottom:0px;
 }
 
 .usp-wrap .usp-product__item p {
@@ -29,9 +36,13 @@ Use this code
 }
 
 .usp-wrap .usp-product__item svg, .usp-wrap .usp-product__item img{
-    max-width: 20px;
+    max-width: 15px;
     margin-right: 20px;
     width: 100%;
+}
+
+.usp-wrap .usp-product__item img {
+    max-width:{{block.settings.usp_image_width}}px;
 }
 
 {%- endstyle -%}
@@ -44,7 +55,7 @@ Use this code
                 {{ block.settings.usp_product_icon_svg }}
             {% else %}
                 {% if block.settings.usp_product_icon_image != blank %}
-                    <img  src="{{ block.settings.usp_product_icon_image | image_url: 'master' }}" alt="usp-icon">
+                    <img  src="{{ block.settings.usp_product_icon_image | img_url: 'master' }}" alt="usp-icon">
                 {% endif %}
             {% endif %}
             {% if block.settings.usp_product_text != blank %}
@@ -61,7 +72,7 @@ Use this code
                 {{ block.settings.usp_product_icon_svg_2 }}
             {% else %}
                 {% if block.settings.usp_product_icon_image_2 != blank %}
-                    <img  src="{{ block.settings.usp_product_icon_image_2 | image_url: 'master' }}" alt="usp-icon">
+                    <img  src="{{ block.settings.usp_product_icon_image_2 | img_url: 'master' }}" alt="usp-icon">
                 {% endif %}
             {% endif %}
             {% if block.settings.usp_product_text_2 != blank %}
@@ -78,7 +89,7 @@ Use this code
                 {{ block.settings.usp_product_icon_svg_3 }}
             {% else %}
                 {% if block.settings.usp_product_icon_image_3 != blank %}
-                    <img  src="{{ block.settings.usp_product_icon_image_3 | image_url: 'master' }}" alt="usp-icon">
+                    <img  src="{{ block.settings.usp_product_icon_image_3 | img_url: 'master' }}" alt="usp-icon">
                 {% endif %}
             {% endif %}
             {% if block.settings.usp_product_text_3 != blank %}
@@ -95,7 +106,7 @@ Use this code
                 {{ block.settings.usp_product_icon_svg_4 }}
             {% else %}
                 {% if block.settings.usp_product_icon_image_4 != blank %}
-                    <img  src="{{ block.settings.usp_product_icon_image_4 | image_url: 'master' }}" alt="usp-icon">
+                    <img  src="{{ block.settings.usp_product_icon_image_4 | img_url: 'master' }}" alt="usp-icon">
                 {% endif %}
             {% endif %}
             {% if block.settings.usp_product_text_4 != blank %}
@@ -112,7 +123,7 @@ Use this code
                 {{ block.settings.usp_product_icon_svg_5 }}
             {% else %}
                 {% if block.settings.usp_product_icon_image_5 != blank %}
-                    <img  src="{{ block.settings.usp_product_icon_image_5 | image_url: 'master' }}" alt="usp-icon">
+                    <img  src="{{ block.settings.usp_product_icon_image_5 | img_url: 'master' }}" alt="usp-icon">
                 {% endif %}
             {% endif %}
             {% if block.settings.usp_product_text_5 != blank %}
@@ -125,8 +136,11 @@ Use this code
 
 </div>
 
+2. add this code just under {%- when 'description' -%} in main-product.liquid
+{% when 'usp-product' %} 
+{% render 'nf-usp-product', block:block %}
 
-Put this code main-product.liquid schema
+3. Put this code main-product.liquid schema
 
 {
       "type": "usp-product",
