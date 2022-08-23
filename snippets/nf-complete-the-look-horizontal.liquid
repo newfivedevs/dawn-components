@@ -12,7 +12,17 @@
 }
 
 #nf-complete-the-look-horizontal img {
-    width: 100px;
+    width: 100%;
+    object-fit: cover;
+    object-position: center center;
+
+    display: block;
+    max-width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
 }
 #nf-complete-the-look-horizontal-container {
     display: grid;
@@ -21,12 +31,22 @@
 
 }
 
-.nf-complete-the-look-horizontal__content {
-    /* width: 30%;
-    display: flex;
-    flex-direction: column;
-    align-items: center; */
-}
+.nf-complete-the-look-horizontal--content__media {
+    overflow: hidden;
+    z-index: 0;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    width: calc(100% - 2 * 0px);
+  }
+
+  .nf-complete-the-look-horizontal--content--media__content {
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    width: 100%;
+  }
+
 
 .nf-complete-the-look-horizontal__content .product-form__buttons .quick-add__submit{
     display: none;
@@ -101,12 +121,40 @@
         {% endcapture %}
         {% endunless %}
 
+        {%- liquid
+            assign ratio = 1
+            if look.featured_image and media_aspect_ratio == 'portrait'
+            assign ratio = 0.8
+            elsif look.featured_image and media_aspect_ratio == 'adapt'
+            assign ratio = look.featured_image.aspect_ratio
+            endif
+            if ratio == 0 or ratio == nil
+            assign ratio = 1
+            endif
+        -%}
+
         {% assign sizes_array = sizes | split: '::'  %}
 
         <div id="nf-complete-the-look-horizontal__content-{{look.id}}" class="nf-complete-the-look-horizontal__content">
             
-            <div class="nf-complete-the-look-horizontal__image">
-                <img src="{{ look.featured_image | img_url: 'master' }}" alt="" loading="lazy" />
+            <div class="nf-complete-the-look-horizontal__image ratio" style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;">
+                <div class="nf-complete-the-look-horizontal--content__media">
+                    <div class="nf-complete-the-look-horizontal--content--media__content">
+                        <img
+                        srcset="{%- if look.featured_image.width >= 165 -%}{{ look.featured_image | image_url: width: 165 }} 165w,{%- endif -%}
+                        {%- if look.featured_image.width >= 360 -%}{{ look.featured_image | image_url: width: 360 }} 360w,{%- endif -%}
+                        {%- if look.featured_image.width >= 533 -%}{{ look.featured_image | image_url: width: 533 }} 533w,{%- endif -%}
+                        {%- if look.featured_image.width >= 720 -%}{{ look.featured_image | image_url: width: 720 }} 720w,{%- endif -%}
+                        {%- if look.featured_image.width >= 940 -%}{{ look.featured_image | image_url: width: 940 }} 940w,{%- endif -%}
+                        {%- if look.featured_image.width >= 1066 -%}{{ look.featured_image | image_url: width: 1066 }} 1066w,{%- endif -%}
+                        {{ look.featured_image | image_url }} {{ look.featured_image.width }}w"
+                        src="{{ look.featured_image | img_url: width: 533 }}"
+                        alt="{{look.featured_image.alt}}" loading="lazy"
+                        width="{{ look.featured_image.width }}"
+                        height="{{ look.featured_image.height }}" />
+                    </div>
+                </div>
+                
             </div>
             <div class="nf-complete-the-look-horizontal_actions">
                 <div class="select {% if look.selected_or_first_available_variant.available == false %}hide-select{% endif %}" >

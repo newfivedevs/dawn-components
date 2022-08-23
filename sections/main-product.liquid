@@ -252,7 +252,10 @@
                   {% if block.settings.complete_the_look_vertical_header_text != blank %}
                     <div class="nf-complete-the-look-vertical__header">{{block.settings.complete_the_look_vertical_header_text}}</div>
                   {% endif %}
-                  {% render 'nf-complete-the-look-vertical', products:block.settings.nf_complete_the_look_vertical_products %}
+                  {% render 'nf-complete-the-look-vertical', 
+                    products: block.settings.nf_complete_the_look_vertical_products, 
+                    media_aspect_ratio: block.settings.image_ratio  
+                  %}
                 </div>
               {% endif %}
           {% when 'complete-the-look-v3' %}
@@ -264,7 +267,10 @@
                     <a href="/collections/all">View all</a>
                   </div>
                 {% endif %}
-                {% render 'nf-complete-the-look-horizontal', products:block.settings.nf_complete_the_look_horizontal_products %}
+                {% render 'nf-complete-the-look-horizontal', 
+                  products:block.settings.nf_complete_the_look_horizontal_products,
+                  media_aspect_ratio: block.settings.image_ratio  
+                %}
               </div>
             {% endif %}
           {%- when 'custom_liquid' -%}
@@ -1038,6 +1044,26 @@
           "type": "product_list",
           "id": "nf_complete_the_look_vertical_products",
           "label": "Products"
+        },
+        {
+          "type": "select",
+          "id": "image_ratio",
+          "options": [
+            {
+              "value": "adapt",
+              "label": "Adapt to image"
+            },
+            {
+              "value": "portrait",
+              "label": "Portrait"
+            },
+            {
+              "value": "square",
+              "label": "square"
+            }
+          ],
+          "default": "adapt",
+          "label": "Adapt to image"
         }
       ]
     },
@@ -1055,6 +1081,26 @@
           "type": "product_list",
           "id": "nf_complete_the_look_horizontal_products",
           "label": "Products"
+        },
+        {
+          "type": "select",
+          "id": "image_ratio",
+          "options": [
+            {
+              "value": "adapt",
+              "label": "Adapt to image"
+            },
+            {
+              "value": "portrait",
+              "label": "Portrait"
+            },
+            {
+              "value": "square",
+              "label": "square"
+            }
+          ],
+          "default": "adapt",
+          "label": "Adapt to image"
         }
       ]
     }

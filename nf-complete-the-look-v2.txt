@@ -1,21 +1,205 @@
+Create this file
 Snippet name: nf-complete-the-look-vertical.liquid
-Put this file in your snippet folder
 
-Metafield name: Complete the look
+1. Use this code
 
-1. Put this code under  {%- when 'description'-%} in main-produc.liquid
+<style>
+  .nf-complete-the-look-vertical__header {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .nf-complete-the-look-vertical__content {
+    margin-bottom: 20px;
+    display: flex;
+    font-size: 13px;
+    line-height: 19px;
+    justify-content: space-between;
+  }
+
+  .nf-complete-the-look-vertical--content__media {
+    overflow: hidden;
+    z-index: 0;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    width: calc(100% - 2 * 0px);
+  }
+
+  .nf-complete-the-look-vertical--content--media__content {
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    width: 100%;
+  }
+
+  .nf-complete-the-look-vertical__content > div:first-child {
+    margin-right: 10px;
+    flex: 1;
+  }
+
+  .nf-complete-the-look-vertical__content > div:last-child{
+    flex: 1;
+  }
+
+  .nf-complete-the-look-vertical__content .product-form__buttons {
+    margin-top: 10px;
+  }
+
+  #nf-complete-the-look-vertical img {
+    width: 100%;
+    object-fit: cover;
+    object-position: center center;
+
+    display: block;
+    max-width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+
+  }
+</style>
+
+
+{% for look in products %}
+
+{%- liquid
+  assign ratio = 1
+  if look.featured_image and media_aspect_ratio == 'portrait'
+    assign ratio = 0.8
+  elsif look.featured_image and media_aspect_ratio == 'adapt'
+    assign ratio = look.featured_image.aspect_ratio
+  endif
+  if ratio == 0 or ratio == nil
+    assign ratio = 1
+  endif
+-%}
+
+<div class="nf-complete-the-look-vertical__content">
+  <div class="ratio" style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;"> 
+    <div class="nf-complete-the-look-vertical--content__media">
+      <div class="nf-complete-the-look-vertical--content--media__content">
+        <img
+        srcset="{%- if look.featured_image.width >= 165 -%}{{ look.featured_image | image_url: width: 165 }} 165w,{%- endif -%}
+        {%- if look.featured_image.width >= 360 -%}{{ look.featured_image | image_url: width: 360 }} 360w,{%- endif -%}
+        {%- if look.featured_image.width >= 533 -%}{{ look.featured_image | image_url: width: 533 }} 533w,{%- endif -%}
+        {%- if look.featured_image.width >= 720 -%}{{ look.featured_image | image_url: width: 720 }} 720w,{%- endif -%}
+        {%- if look.featured_image.width >= 940 -%}{{ look.featured_image | image_url: width: 940 }} 940w,{%- endif -%}
+        {%- if look.featured_image.width >= 1066 -%}{{ look.featured_image | image_url: width: 1066 }} 1066w,{%- endif -%}
+        {{ look.featured_image | image_url }} {{ look.featured_image.width }}w"
+        src="{{ look.featured_image | img_url: width: 533 }}"
+        alt="{{look.featured_image.alt}}" loading="lazy"
+        width="{{ look.featured_image.width }}"
+        height="{{ look.featured_image.height }}" />
+      </div>
+    </div>
+  </div>
+  <div>
+    <span>{{look.title}}</span>
+        {% render 'price', product: card_product, price_class: '' %}
+
+        {% unless look.has_only_default_variant %}
+        {% capture sizes %}
+        {%- for variant in look.variants -%}
+        {{ look.title | handleize }} | {{variant.id}} | {{variant.title | downcase }} | {{variant.available}}
+        {% if forloop.last == false %}::{% endif%}
+        {%- endfor -%}
+        {% endcapture %}
+        {% endunless %}
+
+        {% assign sizes_array = sizes | split: '::'  %}
+
+    <div class="select">
+      <select class="variant_sizes_select select__select" product-id="{{look.id}}">
+        <option  selected disabled>Select</option>
+        {% for size in sizes_array %}
+          {% assign size_val = size | split: '|' %}
+          {% assign product_title =  size_val[0] | join: ', '%} 
+          {% assign variant_id =  size_val[1] | join: ', '%} 
+          {% assign variant_title =  size_val[2] | join: ', '%} 
+          {% assign variant_available =  size_val[3] | strip | join: ', '%} 
+          
+          {% if variant_available == 'true' %}
+            <option value="{{ variant_id | strip }}">
+              {{ variant_title | strip}} 
+            </option>
+          {% endif %}
+        
+        {%- endfor -%}
+      </select>
+      {% render 'icon-caret' %}
+    </div>
+    <div class="product-form__buttons">
+      <product-form>
+          {%- form 'product', look, id: product_form_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+            <input type="hidden" class="variant-id" name="id" value="{{ look.selected_or_first_available_variant.id }}" disabled>
+            <button
+              id="{{ product_form_id }}-submit"
+              type="submit"
+              name="add"
+              class="quick-add__submit button button--full-width button--primary"
+              aria-haspopup="dialog"
+              aria-labelledby="{{ product_form_id }}-submit title-{{ section_id }}-{{ look.id }}"
+              aria-live="polite"
+              data-sold-out-message="true"
+              {% if look.selected_or_first_available_variant.available == false %}disabled{% endif %}
+            >
+              <span>
+                {%- if look.selected_or_first_available_variant.available -%}
+                  {{ 'products.product.add_to_cart' | t }}
+                {%- else -%}
+                  {{ 'products.product.sold_out' | t }}
+                {%- endif -%}
+              </span>
+              <span class="sold-out-message hidden">
+                {{ 'products.product.sold_out' | t }}
+              </span>
+              <div class="loading-overlay__spinner hidden">
+                <svg aria-hidden="true" focusable="false" role="presentation" class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+                  <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+                </svg>
+              </div>
+            </button>
+          {%- endform -%}
+        </product-form>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+<script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        function selectVariantSize(){
+            document.querySelectorAll('.nf-complete-the-look-vertical__content').forEach((element) => {
+              element.querySelector('.variant_sizes_select').addEventListener('change', (event) => {
+                const variantId = event.target.value;
+                var $addToCartBtn = element.querySelector(".variant-id");
+                $addToCartBtn.setAttribute('value', variantId);
+              });
+            });
+        }
+        selectVariantSize();
+    });
+</script>
+
+2. Put this code under  {%- when 'description'-%} in main-product.liquid
 {% when 'complete-the-look-v2' %}
               {% if block.settings.nf_complete_the_look_vertical_products != blank %}
                 <div id="nf-complete-the-look-vertical">
                   {% if block.settings.complete_the_look_vertical_header_text != blank %}
                     <div class="nf-complete-the-look-vertical__header">{{block.settings.complete_the_look_vertical_header_text}}</div>
                   {% endif %}
-                  {% render 'nf-complete-the-look-vertical', products:block.settings.nf_complete_the_look_vertical_products %}
+                  {% render 'nf-complete-the-look-vertical', 
+                    products: block.settings.nf_complete_the_look_vertical_products, 
+                    media_aspect_ratio: block.settings.image_ratio  
+                  %}
                 </div>
               {% endif %}
 
 
-2. add to schema main-product.liquid
+3. add to schema main-product.liquid
 {
       "type": "complete-the-look-v2",
       "name": "NF Complete the look",
@@ -30,41 +214,414 @@ Metafield name: Complete the look
           "type": "product_list",
           "id": "nf_complete_the_look_vertical_products",
           "label": "Products"
+        },
+        {
+          "type": "select",
+          "id": "image_ratio",
+          "options": [
+            {
+              "value": "adapt",
+              "label": "Adapt to image"
+            },
+            {
+              "value": "portrait",
+              "label": "Portrait"
+            },
+            {
+              "value": "square",
+              "label": "square"
+            }
+          ],
+          "default": "adapt",
+          "label": "Adapt to image"
         }
       ]
-    }
+    },
+
+-----------------------------------------
 
 Snippet name: nf-complete-the-look-horizontal.liquid
 Put this file in your snippet folder
 
-Metafield name: Complete the look
+1. use this code
 
-1. Put this code under  {%- when 'description'-%} 
+<style>
+
+.nf-complete-the-look-horizontal__header {
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.nf-complete-the-look-horizontal__header a {
+    color: #000 !important;
+}
+
+#nf-complete-the-look-horizontal img {
+    width: 100%;
+    object-fit: cover;
+    object-position: center center;
+
+    display: block;
+    max-width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+#nf-complete-the-look-horizontal-container {
+    display: grid;
+    gap: 0 0.8rem;
+    grid-template-columns: minmax(30%,1fr) minmax(30%,1fr) minmax(30%,1fr);
+
+}
+
+.nf-complete-the-look-horizontal--content__media {
+    overflow: hidden;
+    z-index: 0;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    width: calc(100% - 2 * 0px);
+  }
+
+  .nf-complete-the-look-horizontal--content--media__content {
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    width: 100%;
+  }
+
+
+.nf-complete-the-look-horizontal__content .product-form__buttons .quick-add__submit{
+    display: none;
+}
+
+.nf-complete-the-look-horizontal__image {
+    position: relative;
+    text-align: center;
+}
+
+.complete-the-look-checked {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px;
+    background: #fff;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 0px;
+}
+
+.nf-complete-the-look-horizontal__hide-select {
+    display: none;
+}
+
+.nf-complete-the-look-horizontal_actions {
+    /* width: 100%; */
+}
+
+.nf-complete-the-look-horizontal__delete, .product-form__buttons, .nf-complete-the-look-horizontal_actions button, cart-remove-button button {
+    min-width: 100% !important;
+    width: 100% !important;
+}
+
+.nf-complete-the-look-horizontal_actions .hide-select {
+    display: none;
+}
+
+.nf-complete-the-look-horizontal__delete.display__none,
+.nf-complete-the-look-horizontal_actions .hide-select,
+.nf-complete-the-look-horizontal_actions .hide-sold-out-btn, .display__none {
+    display: none;
+}
+
+.nf-complete-the-look-horizontal__delete.display__block, .display_block {
+    display: block;
+}
+
+.drawer__inner-empty.nf-cart-drawer-empty {
+    justify-content: center;
+    position: relative;
+}
+.drawer__inner-empty.nf-cart-drawer-empty h2 {
+    display: block;
+    text-align: center;
+}
+
+</style>
+
+<div id="nf-complete-the-look-horizontal-container">
+    {% for look in products limit: 3 %}
+
+        {% unless look.has_only_default_variant %}
+        {% capture sizes %}
+        {%- for variant in look.variants -%}
+        {{ look.title | handleize }} | {{variant.id}} | {{variant.title | downcase }} | {{variant.available}}
+        {% if forloop.last == false %}::{% endif%}
+        {%- endfor -%}
+        {% endcapture %}
+        {% endunless %}
+
+        {%- liquid
+            assign ratio = 1
+            if look.featured_image and media_aspect_ratio == 'portrait'
+            assign ratio = 0.8
+            elsif look.featured_image and media_aspect_ratio == 'adapt'
+            assign ratio = look.featured_image.aspect_ratio
+            endif
+            if ratio == 0 or ratio == nil
+            assign ratio = 1
+            endif
+        -%}
+
+        {% assign sizes_array = sizes | split: '::'  %}
+
+        <div id="nf-complete-the-look-horizontal__content-{{look.id}}" class="nf-complete-the-look-horizontal__content">
+            
+            <div class="nf-complete-the-look-horizontal__image ratio" style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;">
+                <div class="nf-complete-the-look-horizontal--content__media">
+                    <div class="nf-complete-the-look-horizontal--content--media__content">
+                        <img
+                        srcset="{%- if look.featured_image.width >= 165 -%}{{ look.featured_image | image_url: width: 165 }} 165w,{%- endif -%}
+                        {%- if look.featured_image.width >= 360 -%}{{ look.featured_image | image_url: width: 360 }} 360w,{%- endif -%}
+                        {%- if look.featured_image.width >= 533 -%}{{ look.featured_image | image_url: width: 533 }} 533w,{%- endif -%}
+                        {%- if look.featured_image.width >= 720 -%}{{ look.featured_image | image_url: width: 720 }} 720w,{%- endif -%}
+                        {%- if look.featured_image.width >= 940 -%}{{ look.featured_image | image_url: width: 940 }} 940w,{%- endif -%}
+                        {%- if look.featured_image.width >= 1066 -%}{{ look.featured_image | image_url: width: 1066 }} 1066w,{%- endif -%}
+                        {{ look.featured_image | image_url }} {{ look.featured_image.width }}w"
+                        src="{{ look.featured_image | img_url: width: 533 }}"
+                        alt="{{look.featured_image.alt}}" loading="lazy"
+                        width="{{ look.featured_image.width }}"
+                        height="{{ look.featured_image.height }}" />
+                    </div>
+                </div>
+                
+            </div>
+            <div class="nf-complete-the-look-horizontal_actions">
+                <div class="select {% if look.selected_or_first_available_variant.available == false %}hide-select{% endif %}" >
+                    <select class="variant_sizes_select select__select" product-id="{{look.id}}">
+                    <option  selected disabled>Select</option>
+                    {% for size in sizes_array %}
+                        {% assign size_val = size | split: '|' %}
+                        {% assign product_title =  size_val[0] | join: ', '%} 
+                        {% assign variant_id =  size_val[1] | join: ', '%} 
+                        {% assign variant_title =  size_val[2] | join: ', '%} 
+                        {% assign variant_available =  size_val[3] | strip | join: ', '%} 
+                        {% if variant_available == 'true' %}
+                            <option value="{{ variant_id | strip }}">
+                                {{ variant_title | strip}} 
+                            </option>
+                        {% endif %}
+                    {%- endfor -%}
+                    </select>
+                    {% render 'icon-caret' %}
+                </div>
+                <button class="button button--full-width button--primary {% if look.selected_or_first_available_variant.available == true %}hide-select{% endif %}" disabled> SOLD OUT</button>
+                
+            </div>
+            <div class="product-form__buttons">
+                <product-form>
+                    {%- form 'product', look, id: product_form_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+                        <input type="hidden" class="variant-id" name="id" value="{{ look.selected_or_first_available_variant.id }}" disabled>
+                        <button
+                        id="{{ product_form_id }}-submit"
+                        type="submit"
+                        name="add"
+                        class="quick-add__submit button button--full-width button--primary"
+                        aria-haspopup="dialog"
+                        aria-labelledby="{{ product_form_id }}-submit title-{{ section_id }}-{{ look.id }}"
+                        aria-live="polite"
+                        data-sold-out-message="true"
+                        {% if look.selected_or_first_available_variant.available == false %}disabled{% endif %}
+                        >
+                        <span>
+                            {%- if look.selected_or_first_available_variant.available -%}
+                            {{ 'products.product.add_to_cart' | t }}
+                            {%- else -%}
+                            {{ 'products.product.sold_out' | t }}
+                            {%- endif -%}
+                        </span>
+                        <span class="sold-out-message hidden">
+                            {{ 'products.product.sold_out' | t }}
+                        </span>
+                        <div class="loading-overlay__spinner hidden">
+                            <svg aria-hidden="true" focusable="false" role="presentation" class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+                            <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+                            </svg>
+                        </div>
+                        </button>
+
+                    {%- endform -%}
+
+                </product-form>
+                <button class="nf-complete-the-look-horizontal__delete display__none button button--primary"  aria-label="" data-variant="{{look.id}}">
+                    DELETE
+                </button>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        
+        function selectVariantSize(){
+
+            document.querySelectorAll('.nf-complete-the-look-horizontal__content').forEach((element) => {
+
+                const check_mark = document.createElement('div');
+                check_mark.classList.add('complete-the-look-checked');
+                check_mark.innerHTML = '<svg  style="width:20px; color:green;" class="icon icon-checkmark color-foreground-{{ settings.accent_icons }}" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 9" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M11.35.643a.5.5 0 01.006.707l-6.77 6.886a.5.5 0 01-.719-.006L.638 4.845a.5.5 0 11.724-.69l2.872 3.011 6.41-6.517a.5.5 0 01.707-.006h-.001z" fill="currentColor"/></svg>';
+
+                element.querySelector('.variant_sizes_select').addEventListener('change', (event) => {
+
+                    const variantId = event.target.value;
+                    element.setAttribute('id', 'nf-complete-the-look-horizontal__content'+variantId);
+
+                    const el = element.querySelector('.nf-complete-the-look-horizontal__image');
+                    el.appendChild(check_mark);
+
+                    const actions = element.querySelector('.nf-complete-the-look-horizontal_actions');
+
+                    const select = actions.querySelector('.select');
+                    select.classList.add('nf-complete-the-look-horizontal__hide-select');
+
+                    const delete_btn = element.querySelector('.nf-complete-the-look-horizontal__delete');
+                    delete_btn.classList.remove("display__none");
+                    delete_btn.classList.add("display__block");
+                    delete_btn.setAttribute('data-variant', variantId);
+
+                    var $addToCartBtn = element.querySelector(".variant-id");
+                    $addToCartBtn.setAttribute('value', variantId);
+                    element.querySelector('.quick-add__submit').click();
+                });
+            });
+        }selectVariantSize();
+        
+        function deleteProduct(){
+
+            const empty_cart = document.createElement('div');
+            empty_cart.classList.add('drawer__inner-empty', 'nf-cart-drawer-empty');
+            empty_cart.innerHTML = `<button class="drawer__close" type="button" onclick="this.closest('cart-drawer').close()" 
+            aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" role="presentation" 
+            class="icon icon-close" fill="none" viewBox="0 0 18 17">
+            <path d="M.865 15.978a.5.5 0 00.707.707l7.433-7.431 7.579 7.282a.501.501 0 00.846-.37.5.5 0 00-.153-.351L9.712 8.546l7.417-7.416a.5.5 0 10-.707-.708L8.991 7.853 1.413.573a.5.5 0 10-.693.72l7.563 7.268-7.418 7.417z" fill="currentColor">
+            </path></svg>
+            </button><h2 class="cart__empty-text">Your cart is empty</h2><a href="/collections/all" class="button">Continue shopping</a>`;
+
+            document.querySelectorAll('.nf-complete-the-look-horizontal__content').forEach((element) => {
+
+                const delete_btn = element.querySelector('.nf-complete-the-look-horizontal__delete');
+                const delete_btn_variant_id = delete_btn.dataset.variant;
+                
+                delete_btn.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    const response = await fetch('/cart/change.js', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            id: delete_btn.dataset.variant,
+                            quantity: 0
+                        })
+                    })
+
+                    const data = await response.json();
+                    console.log(data.item_count)
+                  
+                    delete_btn.classList.remove("display__block" );
+                    delete_btn.classList.add("display__none");
+
+                    element.querySelector(".complete-the-look-checked").remove();
+                    element.querySelector(".select").classList.remove("nf-complete-the-look-horizontal__hide-select");
+                    element.querySelector(".variant_sizes_select").options[0].selected = true;
+                    
+                    const cartDrawer = document.querySelector("#CartDrawer-Form");
+                    setTimeout(function(){
+                        
+                        document.querySelector(".cart-count-bubble span").innerHTML = data.item_count;
+                        cartDrawer.querySelector(".CartDrawer-Item-"+delete_btn.dataset.variant).remove();
+
+                        if(data.item_count == 0) {
+                            document.querySelector(".drawer__header").classList.add("display__none");
+                            document.querySelector(".drawer__footer").classList.add("display__none");
+                            document.querySelector(".drawer__inner").appendChild(empty_cart);
+                            document.querySelector(".cart-count-bubble").remove();
+                        }
+                        
+                    },1000);
+
+                    document.querySelector("#cart-icon-bubble").click();
+                    
+                });
+
+            });
+
+        }deleteProduct();
+
+
+    });
+
+</script>
+
+
+2. Put this code under  {%- when 'description'-%} 
 {% when 'complete-the-look-v3' %}
             {% if block.settings.nf_complete_the_look_horizontal_products != blank %}
               <div id="nf-complete-the-look-horizontal">
                 {% if block.settings.complete_the_look_horizontal_header_text != blank %}
-                  <div class="nf-complete-the-look-horizontal__header">{{block.settings.complete_the_look_horizontal_header_text}}</div>
+                  <div class="nf-complete-the-look-horizontal__header">
+                    <span>{{block.settings.complete_the_look_horizontal_header_text}}</span>
+                    <a href="/collections/all">View all</a>
+                  </div>
                 {% endif %}
-                {% render 'nf-complete-the-look-horizontal', products:block.settings.nf_complete_the_look_horizontal_products %}
+                {% render 'nf-complete-the-look-horizontal', 
+                  products:block.settings.nf_complete_the_look_horizontal_products,
+                  media_aspect_ratio: block.settings.image_ratio  
+                %}
               </div>
             {% endif %}
 
-2. add to schema main-product.liquid
+3. add to schema main-product.liquid
 {
-      "type": "complete-the-look-v2",
-      "name": "NF Complete the look",
+      "type": "complete-the-look-v3",
+      "name": "NF Complete the look v3",
       "limit": 1,
       "settings": [
         {
           "type": "text",
           "label": "Heading text",
-          "id": "complete_the_look_vertical_header_text"
+          "id": "complete_the_look_horizontal_header_text"
         },
         {
           "type": "product_list",
-          "id": "nf_complete_the_look_vertical_products",
+          "id": "nf_complete_the_look_horizontal_products",
           "label": "Products"
+        },
+        {
+          "type": "select",
+          "id": "image_ratio",
+          "options": [
+            {
+              "value": "adapt",
+              "label": "Adapt to image"
+            },
+            {
+              "value": "portrait",
+              "label": "Portrait"
+            },
+            {
+              "value": "square",
+              "label": "square"
+            }
+          ],
+          "default": "adapt",
+          "label": "Adapt to image"
         }
       ]
     }
