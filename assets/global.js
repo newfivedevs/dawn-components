@@ -755,6 +755,7 @@ class VariantSelects extends HTMLElement {
     this.toggleAddButton(true, '', false);
     this.updatePickupAvailability();
     this.removeErrorMessage();
+    this.inStockMessage();
 
     if (!this.currentVariant) {
       this.toggleAddButton(true, '', true);
@@ -823,6 +824,11 @@ class VariantSelects extends HTMLElement {
       pickUpAvailability.removeAttribute('available');
       pickUpAvailability.innerHTML = '';
     }
+  }
+
+  inStockMessage(){
+    document.querySelectorAll('.product-stock-label').forEach((item) => { item.classList.remove('selected') })
+    document.querySelector('.product-stock-label[data-variantid="'+this.currentVariant.id+'"]').classList.add('selected');
   }
 
   removeErrorMessage() {
