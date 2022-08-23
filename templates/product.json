@@ -48,14 +48,16 @@
           "type": "complete-the-look-v2",
           "settings": {
             "complete_the_look_vertical_header_text": "Complete the look",
-            "nf_complete_the_look_vertical_products": "{{ product.metafields.custom.complete_the_look.value }}"
+            "nf_complete_the_look_vertical_products": "{{ product.metafields.custom.complete_the_look.value }}",
+            "image_ratio": "square"
           }
         },
         "a15945dc-bdfc-4957-8d8b-ff5d0ad9c4b8": {
           "type": "complete-the-look-v3",
           "settings": {
             "complete_the_look_horizontal_header_text": "Complete the look",
-            "nf_complete_the_look_horizontal_products": "{{ product.metafields.custom.complete_the_look.value }}"
+            "nf_complete_the_look_horizontal_products": "{{ product.metafields.custom.complete_the_look.value }}",
+            "image_ratio": "adapt"
           }
         },
         "description": {
